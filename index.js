@@ -7,6 +7,9 @@ const { getResponseSupport } = require('./controllers/askRequest');
 const uri = process.env.MONGO_DB_URI
 const mongoose = require('mongoose');
 
+const customersRoutes = require('./routes/use-customers')
+const companiesRoutes = require('./routes/company')
+
 mongoose.connect(uri);
 const database = mongoose.connection
 
@@ -28,9 +31,8 @@ app.get('/api/v1', (req, res) => {
     res.send('api v1')
 })
 
-app.post('/use/ask-request', async (req, res) => {
-    res.send(await getResponseSupport(req.body.question))
-})
+app.use('/api-customers', customersRoutes)
+app.use('/api-company', companiesRoutes)
 
 app.listen(3001, async () => {
     console.log('listening on port 3001');
