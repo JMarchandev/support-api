@@ -1,14 +1,11 @@
 const express = require('express');
-const { getResponseSupport } = require('../controllers/askRequest');
-const CompanyModel = require('../models/company')
 const router = express.Router()
 
-router.post('/create', async (req, res) => {
-    const { name, prompt_spec } = req.body
-    const newCompany = new CompanyModel({ name, prompt_spec })
+const { createCompany, getCompanyById, updateCompany } = require('../controllers/companyController');
 
+router.post('/', async (req, res) => {
     try {
-        const companyToSave = await newCompany.save();
+        const companyToSave = await createCompany(req.body)
         res.status(200).json(companyToSave)
     }
     catch (error) {
@@ -18,7 +15,7 @@ router.post('/create', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     try {
-        const company = await CompanyModel.findById(req.params.id)
+        const company = await getCompanyById(req.params.id)
         res.json(company)
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -28,14 +25,11 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
     try {
         const id = req.params.id;
-        const updatedData = req.body;
-        const options = { new: true };
+        const dataToUpdate = req.body;
 
-        const result = await CompanyModel.findByIdAndUpdate(
-            id, updatedData, options
-        )
+        const updatedCompany = await updateCompany(id, dataToUpdate)
 
-        res.send(result)
+        res.send(updatedCompany)
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
