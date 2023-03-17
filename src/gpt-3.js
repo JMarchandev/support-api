@@ -13,12 +13,17 @@ const getCompletionStructure = (prompt) => {
     return {
         model: "text-davinci-003",
         prompt,
+        max_tokens: 4000
     }
 }
 
 async function runCompletion(prompt) {
-    const completion = await openai.createCompletion(getCompletionStructure(prompt))
-    return completion.data.choices[0]
+    try {
+        const completion = await openai.createCompletion(getCompletionStructure(prompt))
+        return completion.data.choices[0]
+    } catch (error) {
+        return error
+    }
 }
 
 module.exports = {

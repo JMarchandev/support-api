@@ -18,8 +18,14 @@ const updateCompany = async (id, data) => {
     )
 }
 
+const getCompanyPromptSpec = async (companyId) => {
+    const { prompt_spec } = await getCompanyById(companyId)
+    return prompt_spec
+}
+
 module.exports = {
     createCompany,
     getCompanyById,
-    updateCompany
+    updateCompany,
+    getCompanyPromptSpec
 }
