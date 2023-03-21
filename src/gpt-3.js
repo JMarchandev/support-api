@@ -22,7 +22,7 @@ async function runCompletion(prompt) {
         const completion = await openai.createCompletion(getCompletionStructure(prompt))
         return completion.data.choices[0]
     } catch (error) {
-        return error
+        throw error
     }
 }
 
