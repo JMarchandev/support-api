@@ -13,7 +13,7 @@ const getCompletionStructure = (prompt) => {
     return {
         model: "text-davinci-003",
         prompt,
-        max_tokens: 4000
+        max_tokens: 2000
     }
 }
 
