@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router()
 
-const { createCompany, getCompanyById, updateCompany } = require('../controllers/companyController');
+const { createCompany, getCompanyById, updateCompany, getCompanyFullPrompt } = require('../controllers/companyController');
 
 router.post('/', async (req, res) => {
     try {
@@ -30,6 +30,15 @@ router.put('/:id', async (req, res) => {
         const updatedCompany = await updateCompany(id, dataToUpdate)
 
         res.send(updatedCompany)
+    } catch (error) {
+        res.status(400).json({ message: error.message })
+    }
+})
+
+router.get('/:id/full-prompt', async (req, res) => {
+    try {
+        const companyFullPrompt = await getCompanyFullPrompt(req.params.id)
+        res.send(companyFullPrompt)
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
